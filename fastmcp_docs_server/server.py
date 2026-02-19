@@ -600,7 +600,25 @@ def get_kb_stats() -> str:
 
 def main():
     """CLI entry point for fixflow-mcp."""
-    mcp.run(transport='stdio')
+    import argparse
+    parser = argparse.ArgumentParser(description="FixFlow MCP Server")
+    parser.add_argument(
+        "transport", 
+        choices=["stdio", "sse"], 
+        default="stdio", 
+        nargs="?",
+        help="Transport protocol (stdio or sse)"
+    )
+    parser.add_argument("--host", default="0.0.0.0", help="Host for SSE")
+    parser.add_argument("--port", type=int, default=8000, help="Port for SSE")
+    
+    args = parser.parse_args()
+
+    if args.transport == "sse":
+        sys.stderr.write(f"🚀 Starting FixFlow SSE server on {args.host}:{args.port}\n")
+        mcp.run(transport='sse', host=args.host, port=args.port)
+    else:
+        mcp.run(transport='stdio')
 
 
 if __name__ == "__main__":
