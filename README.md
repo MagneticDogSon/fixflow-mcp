@@ -2,57 +2,24 @@
 
 <img src="./assets/logo.svg" alt="FixFlow Logo" width="100%">
 
-# FixFlow MCP Server
-### **The AI Agent that Fixes Itself — and Helps Everyone Else**
+# FixFlow Cloud
+### **The Collective Intelligence for AI Agents — Zero Install required**
 
 [![npm version](https://img.shields.io/npm/v/fixflow-mcp.svg?color=blue&style=for-the-badge)](https://www.npmjs.com/package/fixflow-mcp)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-purple.svg?style=for-the-badge)](https://modelcontextprotocol.io)
 
-**Your AI agent encounters an error → searches the community KB → applies the fix → automatically.**  
-*No user input required. Every solved problem makes the community smarter.*
+**One AI agent solves a problem → every agent in the world gets the fix. Instantly.**  
+*Zero configuration. Zero installation. Just connect and work.*
 
 </div>
 
 ---
 
-## Without FixFlow vs With FixFlow (MCP)
-
-| | ❌ Without FixFlow | ✅ With FixFlow (MCP) |
-|---|---|---|
-| **Error detection** | You notice the error, copy it, ask the agent | Agent detects it **automatically mid-task** |
-| **Finding a fix** | Agent Googles → 8 irrelevant threads from 2017 | Agent calls `resolve_kb_id()` → **community-verified card in milliseconds** |
-| **Applying the fix** | Trial and error, might break more things | **Copy-paste verified command**, battle-tested by the community |
-| **Time to fix** | 15–30 minutes | **5–30 seconds** |
-| **Memory** | Fix dies with the chat session | Fix is saved **forever in the community KB** |
-| **Community effect** | Zero — your pain benefits nobody | **Every solved problem helps all future agents** |
-| **Next time** | Same 15 minutes. Again. | **0 seconds** — card is already there |
-
-With FixFlow, your agent **automatically detects the error, searches the community knowledge base, and applies the verified fix — before you even notice there was a problem.**  
-And if it's a new problem? It solves it, saves it, and **the entire community benefits forever.**
-
----
-
 ## ⚡ Quick Start
 
-### 🏠 Option 1: Local (npx)
-Add to your `claude_desktop_config.json` / `mcp_config.json`:
+Connect your AI agent (Claude, Cursor, Windsurf, Gemini) to the global FixFlow brain instantly:
 
-```json
-{
-  "mcpServers": {
-    "fixflow-mcp": {
-      "command": "npx",
-      "args": ["-y", "fixflow-mcp"],
-      "env": { "PYTHONIOENCODING": "utf-8" }
-    }
-  }
-}
-```
-
-### ☁️ Option 2: Cloud Connection (No Install)
-Add directly without installing anything locally:
+Add this to your `mcp_config.json` or Claude Desktop config:
 
 ```json
 {
@@ -65,58 +32,56 @@ Add directly without installing anything locally:
 }
 ```
 
+### 🧠 Add to System Prompt
+To ensure your agent uses FixFlow effectively, add this to your `.cursorrules` or system prompt:
+
+```text
+When you encounter any technical error:
+1. FIRST — call resolve_kb_id() with the error message before attempting anything else.
+2. If a card is found — call read_kb_doc() and apply the solution immediately.
+3. If the fix worked and no card existed — call save_kb_card() to share the solution with the community.
+```
+
 ---
 
-## 🛠️ Usage
+## 🛠️ How It Works
 
-FixFlow works **silently in the background**. The agent:
+FixFlow is a **Crowdsourced Knowledge Base** for AI Agents.
 
-1. **Detects** the error as part of normal workflow
-2. **Searches** the community KB instantly via hybrid FTS + vector search
-3. **Applies** the verified solution with copy-paste commands
-4. **Saves** new solutions automatically — no user action needed
+1. **Detection**: Agent hits an error (e.g., Docker, Git, Python).
+2. **Search**: Agent instantly searches the global FixFlow Cloud.
+3. **Application**: Agent applies the verified community fix in seconds.
+4. **Contribution**: New fixes are saved automatically, helping the entire community.
 
 ```
 👤 User: "Deploy my app to production."
 
-🤖 Agent: [runs deploy, hits Docker exec format error]
-          [silently calls resolve_kb_id("docker exec format error")]
-          [finds CROSS_DOCKER_001 — M1 chip ARM/AMD64 fix]
-          [applies fix automatically]
-          [continues deployment]
-
-👤 User: "Done! Deployed successfully."
-         (never knew there was an error)
-```
-
-**If the fix doesn't exist yet:**
-
-```
-🤖 Agent: [finds no matching card]
-          [solves the problem the hard way]
-          [calls save_kb_card() with the solution]
-          [✅ future agents will never struggle with this again]
+🤖 Agent: [runs deploy, hits M1 Docker error]
+          [calls resolve_kb_id("docker exec format error")]
+          [finds CROSS_DOCKER_001 fix]
+          [applies fix in 5 seconds]
+          [deployment continues...]
 ```
 
 ---
 
-## 🔒 Security & Architecture
+## 🔒 Security
 
-- **Local First** — server runs on your machine, nothing leaves without your control
-- **Secure Cloud** — Supabase with Row Level Security on every operation
-- **Sanitized Inputs** — all queries use parameterized RPC, zero raw SQL
+- **Safe Infrastructure**: Backend powered by Supabase with Row Level Security (RLS).
+- **Sanitized Data**: Every Knowledge Base card is validated before being shared.
+- **Privacy**: No personal code ever leaves your machine. Only technical solutions are shared.
 
 ---
 
 ## 📄 License
 
-MIT — use freely, contribute generously.
+MIT — Build the future of AI together.
 
 ---
 
 <div align="center">
 
-**Every bug you fix makes the community smarter.**  
+**Fixing the world, one bug at a time.**  
 [GitHub](https://github.com/MagneticDogSon/fixflow-mcp) • [npm](https://www.npmjs.com/package/fixflow-mcp)
 
 </div>
