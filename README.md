@@ -36,6 +36,7 @@ And if it's a new problem? It solves it, saves it, and **the entire community be
 
 ## ⚡ Quick Start
 
+### 🏠 Option 1: Local (npx)
 Add to your `claude_desktop_config.json` / `mcp_config.json`:
 
 ```json
@@ -50,16 +51,19 @@ Add to your `claude_desktop_config.json` / `mcp_config.json`:
 }
 ```
 
-Add to your system prompt / `.cursorrules` / `.windsurfrules`:
+### ☁️ Option 2: Cloud Connection (No Install)
+Add directly without installing anything locally:
 
-```text
-When you encounter any technical error:
-1. FIRST — call resolve_kb_id() with the error message before attempting anything else.
-2. If a card is found — call read_kb_doc() and apply the solution immediately.
-3. If the fix worked and no card existed — call save_kb_card() to save it for the community.
+```json
+{
+  "mcpServers": {
+    "fixflow-cloud": {
+      "command": "curl",
+      "args": ["-N", "-s", "https://adjacent-indigo-barnacle.fastmcp.app/mcp"]
+    }
+  }
+}
 ```
-
-That's it. The agent handles everything automatically.
 
 ---
 
@@ -98,83 +102,9 @@ FixFlow works **silently in the background**. The agent:
 
 ## 🔒 Security & Architecture
 
-```
-┌─────────────────────────┐
-│  User + AI Agent        │
-│  (Cursor/Claude/Gemini) │
-└─────────┬───────────────┘
-          │ stdio (MCP)
-┌─────────▼───────────────┐
-│  FixFlow MCP Server     │  ← npx fixflow-mcp
-│  (runs LOCALLY)         │
-│                         │
-│  • Validation + Dedup   │
-│  • Hybrid local → cloud │
-│  • Path traversal guard │
-└────┬────────────────────┘
-     │ HTTPS + RLS
-     ▼
-┌─────────────────────────┐
-│  Supabase Cloud DB      │
-│  • Row Level Security   │
-│  • FTS + pgvector       │
-│  • SECURITY DEFINER RPC │
-└─────────────────────────┘
-```
-
 - **Local First** — server runs on your machine, nothing leaves without your control
 - **Secure Cloud** — Supabase with Row Level Security on every operation
 - **Sanitized Inputs** — all queries use parameterized RPC, zero raw SQL
-
----
-
-## 🔄 How It Works
-
-Every time an agent solves a problem and saves a card — **all agents everywhere get smarter:**
-
-```
-Agent A (New York) hits error X
-  → No card found
-  → Solves it manually (15 min)
-  → Saves card automatically
-  → Card enters community KB
-
-Agent B (Tokyo) hits error X one hour later
-  → Finds the card Agent A saved
-  → Applies fix in 5 seconds
-  → Reports "solved" → card trust score rises
-
-Agent C, D, E... never even notice the error existed.
-```
-
-**You're not just fixing your problem. You're fixing it for everyone.**
-
----
-
-## 📊 Feedback Loop
-
-Every applied solution is automatically tracked:
-
-| Event | Meaning |
-|---|---|
-| `view` | Card was read — tracked automatically |
-| `solved` | Fix worked ✅ — trust score rises |
-| `failed` | Fix didn't work ❌ — flagged for revision |
-| `applied` | Applied, result pending ⏳ |
-
-Cards with high `success_rate` = **battle-tested community solutions.**  
-Cards with rising `failed_count` = **automatically flagged as outdated.**
-
----
-
-## 🔒 Security Principles
-
-- **Row Level Security** on all database operations
-- **Server-side validation** — kb_id format, content length, category whitelist
-- **Path traversal protection** for local file operations
-- **SECURITY DEFINER** RPC functions with fixed `search_path`
-- **Deduplication** — prevents duplicate and spam cards
-- **0 security warnings** from Supabase Security Advisor
 
 ---
 
@@ -187,6 +117,6 @@ MIT — use freely, contribute generously.
 <div align="center">
 
 **Every bug you fix makes the community smarter.**  
-[GitHub](https://github.com/MagneticDogSon/fixflow-mcp) • [Report Issue](https://github.com/MagneticDogSon/fixflow-mcp/issues) • [npm](https://www.npmjs.com/package/fixflow-mcp)
+[GitHub](https://github.com/MagneticDogSon/fixflow-mcp) • [npm](https://www.npmjs.com/package/fixflow-mcp)
 
 </div>
