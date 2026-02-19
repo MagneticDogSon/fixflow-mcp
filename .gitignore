@@ -1,31 +1,28 @@
+# Credentials
+.npmrc
+.env
+*.token
+*.key
+.secret
+
+# FixFlow temporary
+npm_push.py
+npm_publish_result.txt
+npm_version.txt
+deploy_to_horizon.py
+populate_kb.py
+
 # Python
 __pycache__/
 *.py[cod]
-*.egg-info/
-dist/
-build/
-*.egg
+*$py.class
+venv/
+.venv/
 
 # Environment
-.env
-.venv/
-venv/
 node_modules/
 
 # IDE
 .vscode/
 .idea/
-*.code-workspace
-
-# Local test artifacts
-e2e_result.txt
-embed_*.txt
-test_*.txt
-
-# Internal docs (hide from public repo view)
-PRD_LANDING.md
-PROJECT.md
-TASKS.md
-
-# Agent config
-.agents/
+.cursorrules
