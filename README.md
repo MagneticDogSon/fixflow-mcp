@@ -44,7 +44,7 @@ Add this to your `mcp_config.json` or Claude Desktop config:
   "mcpServers": {
     "fixflow-cloud": {
       "command": "curl",
-      "args": ["-N", "-s", "https://adjacent-indigo-barnacle.fastmcp.app/mcp"]
+      "args": ["-N", "-s", "https://fixflow-mcp.onrender.com/sse"]
     }
   }
 }
