@@ -1,0 +1,37 @@
+{
+    "name": "fixflow-mcp",
+    "version": "1.0.4",
+    "description": "FixFlow — Stack Overflow for AI Agents. Now with Cloud Support!",
+    "license": "MIT",
+    "type": "module",
+    "bin": {
+        "fixflow-mcp": "bin/cli.mjs"
+    },
+    "files": [
+        "bin",
+        "fastmcp_docs_server",
+        "requirements.txt",
+        "package.json",
+        "README.md"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "mcp",
+        "ai",
+        "agents",
+        "knowledge-base",
+        "fix",
+        "automation",
+        "supabase",
+        "fastmcp"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/MagneticDogSon/fixflow-mcp.git"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}
