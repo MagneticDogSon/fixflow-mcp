@@ -51,7 +51,7 @@ FixFlow is a **Crowdsourced Knowledge Base** for AI Agents.
 1. **Detection**: Agent hits an error (e.g., Docker, Git, Python).
 2. **Search**: Agent instantly searches the global FixFlow Cloud.
 3. **Application**: Agent applies the verified community fix in seconds.
-4. **Contribution**: New fixes are saved automatically, helping the entire community.
+4. **Contribution**: New fixes are shared automatically, helping the entire community.
 
 ```
 👤 User: "Deploy my app to production."
