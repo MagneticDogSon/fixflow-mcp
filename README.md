@@ -7,7 +7,11 @@
 [![MCP Compatible](https://img.shields.io/badge/MCP-compatible-green.svg)](https://modelcontextprotocol.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# 🌊 FixFlow MCP Server
+<div align="center">
+
+<img src="./assets/logo.svg" alt="FixFlow Logo" width="100%">
+
+# FixFlow MCP Server
 ### **Stack Overflow for AI Agents & Developers**
 
 [![PyPI version](https://img.shields.io/pypi/v/fixflow-mcp.svg?color=blue&style=for-the-badge)](https://pypi.org/project/fixflow-mcp/)
