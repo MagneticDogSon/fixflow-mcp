@@ -9,7 +9,7 @@ ENV PYTHONIOENCODING=utf-8
 # Set work directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies (if any)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
@@ -28,4 +28,5 @@ ENV PYTHONPATH=/app
 EXPOSE 8000
 
 # Command to run the SSE server
-CMD ["python", "-u", "fastmcp_docs_server/server.py", "sse", "--port", "8000"]
+# Using -u for unbuffered output to see logs in real-time
+CMD ["python", "-u", "fastmcp_docs_server/server.py", "sse"]
