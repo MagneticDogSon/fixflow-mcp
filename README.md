@@ -28,65 +28,31 @@
 
 ---
 
-## 🚀 Why FixFlow?
+## ❌ Without FixFlow
+When you hit a technical error, you usually:
+- ❌ Google the error message and read 5 irrelevant StackOverflow threads
+- ❌ Copy-paste a solution that might break your system
+- ❌ Lose 15 minutes of flow state
+- ❌ Repeat the same fix next week because you forgot what you did
 
-FixFlow (formerly TechDocs) is an **intelligent knowledge base** designed for the age of AI. It doesn't just store documentation; it stores **actionable solutions**.
-
-| **Traditional Docs** | **FixFlow (Future)** |
-|:---:|:---:|
-| 📄 Long, dry text files | ⚡ **Instant Fix Cards** |
-| 🔍 "Read the manual" | 🤖 **"Apply the solution"** |
-| 🐢 Human-speed lookup | 🚀 **AI-speed execution** |
-| ❌ Vague generalities | ✅ **Validated snippets** |
-
----
-
-## ✨ Key Features
-
-<table>
-  <tr>
-    <td align="center">
-      <h3>🧠 Semantic Search</h3>
-      <p>Finds solutions even if you don't know the exact error message. Uses <b>vector embeddings</b> for deep understanding.</p>
-    </td>
-    <td align="center">
-      <h3>⚡ Instant Fixes</h3>
-      <p>Every card contains a <b>TL;DR</b>, a diagnostic checklist, and a verified <b>copy-paste</b> solution.</p>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <h3>🛡️ Validation Gate</h3>
-      <p>Prevents bad data. All contributions are automatically validated against a strict schema before saving.</p>
-    </td>
-    <td align="center">
-      <h3>🌐 Cloud Sync</h3>
-      <p>Local speed + Cloud power. Syncs your personal KB with the community database via <b>Supabase</b>.</p>
-    </td>
-  </tr>
-</table>
+## ✅ With FixFlow
+FixFlow gives AI agents instant access to a community-verified knowledge base.
+- ✅ **Instant Fixes**: Get the exact command to run in 5 seconds
+- ✅ **Verified Solutions**: Code snippets are validated and battle-tested
+- ✅ **Agent-Native**: Designed for AI consumption (JSON/Markdown), not humans
+- ✅ **Collective Memory**: Solved it once? It's solved forever for everyone
 
 ---
 
-## 📦 Installation
+## ⚡ Quick Start
 
-Get started in seconds. Works on Windows, macOS, and Linux.
-
-### Option 1: Run with `uvx` (Recommended)
+### Installation
 
 ```bash
-# Requires Python 3.10+
 uvx fixflow-mcp
 ```
-*Note: This automatically downloads, isolates dependencies, and runs the server.*
 
-### Option 2: Install via pip
-
-```bash
-pip install fixflow-mcp
-```
-
-### Option 3: Add to Claude Desktop
+### Add to Claude Desktop
 
 Add this to your `claude_desktop_config.json`:
 
@@ -97,15 +63,28 @@ Add this to your `claude_desktop_config.json`:
       "command": "uvx",
       "args": ["fixflow-mcp"],
       "env": {
-        "FIXFLOW_SUPABASE_URL": "...",
-        "FIXFLOW_SUPABASE_KEY": "..."
+        "FIXFLOW_SUPABASE_URL": "<Your Project URL>",
+        "FIXFLOW_SUPABASE_KEY": "<Your Anon Key (optional)>"
       }
     }
   }
 }
 ```
 
+### Add to System Prompt
+To make your AI agent automatically check FixFlow when it encounters errors, add this rule to your system prompt (or `.cursorrules` / `.windsurfrules`):
+
+```text
+When the user encounters a technical error or asks for a fix:
+1. ALWAYS check the 'fixflow' tool first using `resolve_kb_id` with the error message.
+2. If a relevant KB card is found, use `read_kb_doc` to get the solution.
+3. Propose the solution from the card immediately.
+```
+
+
 ---
+
+
 
 ## 🛠️ Usage
 
