@@ -61,11 +61,7 @@ Add this to your `claude_desktop_config.json`:
   "mcpServers": {
     "fixflow": {
       "command": "uvx",
-      "args": ["fixflow-mcp"],
-      "env": {
-        "FIXFLOW_SUPABASE_URL": "<Your Project URL>",
-        "FIXFLOW_SUPABASE_KEY": "<Your Anon Key (optional)>"
-      }
+      "args": ["fixflow-mcp"]
     }
   }
 }
