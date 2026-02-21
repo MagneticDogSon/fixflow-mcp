@@ -18,5 +18,5 @@ COPY fastmcp_docs_server/ ./fastmcp_docs_server/
 ENV PORT=10000
 EXPOSE 10000
 
-# Run using FastMCP native SSE transport (exposes /sse endpoint)
-CMD ["sh", "-c", "python -m fastmcp_docs_server"]
+# FastMCP serves StreamableHTTP at /mcp via uvicorn
+CMD ["sh", "-c", "uvicorn fastmcp_docs_server.server:app --host 0.0.0.0 --port ${PORT}"]

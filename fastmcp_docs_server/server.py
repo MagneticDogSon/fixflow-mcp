@@ -1,6 +1,6 @@
 """
 Fixlow MCP Server — Community Knowledge Base for AI Agents.
-Uses FastMCP native SSE transport for reliable /sse endpoint.
+FastMCP with StreamableHTTP (default) at /mcp path.
 """
 
 import os
@@ -9,6 +9,9 @@ import yaml
 import logging
 from typing import List
 from fastmcp import FastMCP
+from starlette.applications import Starlette
+from starlette.responses import JSONResponse
+from starlette.routing import Route, Mount
 
 # ─── Initialization ──────────────────────────────────────────────
 
@@ -104,9 +107,15 @@ def save_kb_card(content: str, overwrite: bool = False) -> str:
         logger.error(f"Save Error: {e}")
         return f"❌ Error saving to cloud: {str(e)}"
 
-# ─── Entry Point ──────────────────────────────────────────────
+# ─── ASGI App ───────────────────────────────────────────────────
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    logger.info(f"🚀 Starting Fixlow SSE server on port {port}")
-    mcp.run(transport="sse", host="0.0.0.0", port=port)
+# FastMCP 3.x creates StreamableHTTP at /mcp by default
+# supergateway must use --streamableHttp https://fixlow.onrender.com/mcp
+async def health_endpoint(request):
+    return JSONResponse({"status": "healthy", "service": "fixlow"})
+
+app = Starlette(routes=[
+    Route("/", endpoint=health_endpoint),
+    Route("/health", endpoint=health_endpoint),
+    Mount("/", app=mcp.http_app(path="/mcp")),
+])
