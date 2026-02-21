@@ -1,32 +1,29 @@
-# Use an official Python runtime as a parent image
+# Use Python 3.11 slim for a small, fast image
 FROM python:3.11-slim
 
-# Set environment variables
+# Prevent Python from writing .pyc files and enable unbuffered logging
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV PYTHONIOENCODING=utf-8
+ENV PYTHONPATH=/app
 
-# Set work directory
 WORKDIR /app
 
-# Install system dependencies (if any)
+# Install build dependencies (needed for some python packages)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
+# Install project dependencies
 COPY fastmcp_docs_server/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project files
+# Copy the server code
 COPY fastmcp_docs_server/ ./fastmcp_docs_server/
 
-# Set Python path to find the module
-ENV PYTHONPATH=/app
+# Render sets the PORT environment variable automatically
+ENV PORT=10000
+EXPOSE 10000
 
-# Expose the port FixFlow SSE will run on
-EXPOSE 8000
-
-# Command to run the SSE server
-# Using -u for unbuffered output to see logs in real-time
-CMD ["python", "-u", "fastmcp_docs_server/server.py", "sse"]
+# Start the server using uvicorn pointing to the ASGI 'app' in server.py
+# This provides the best stability for Render's SSE handling
+CMD ["sh", "-c", "uvicorn fastmcp_docs_server.server:app --host 0.0.0.0 --port ${PORT}"]
