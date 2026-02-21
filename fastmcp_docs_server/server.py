@@ -1,6 +1,6 @@
 """
 Fixlow MCP Server — Community Knowledge Base for AI Agents.
-FastMCP with StreamableHTTP (default) at /mcp path.
+FastMCP implementation with robust health checks.
 """
 
 import os
@@ -107,15 +107,18 @@ def save_kb_card(content: str, overwrite: bool = False) -> str:
         logger.error(f"Save Error: {e}")
         return f"❌ Error saving to cloud: {str(e)}"
 
-# ─── ASGI App ───────────────────────────────────────────────────
+# ─── ASGI Application ───────────────────────────────────────────
 
-# FastMCP 3.x creates StreamableHTTP at /mcp by default
-# supergateway must use --streamableHttp https://fixlow.onrender.com/mcp
-async def health_endpoint(request):
+async def health_check(request):
     return JSONResponse({"status": "healthy", "service": "fixlow"})
 
-app = Starlette(routes=[
-    Route("/", endpoint=health_endpoint),
-    Route("/health", endpoint=health_endpoint),
-    Mount("/", app=mcp.http_app(path="/mcp")),
-])
+# Mounting FastMCP app at /mcp explicitly to avoid path conflicts
+mcp_app = mcp.http_app()
+
+app = Starlette(
+    routes=[
+        Route("/", endpoint=health_check),
+        Route("/health", endpoint=health_check),
+        Mount("/mcp", app=mcp_app),
+    ]
+)
