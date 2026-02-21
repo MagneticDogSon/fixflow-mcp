@@ -1,6 +1,6 @@
 """
-FixFlow MCP Server — Community Knowledge Base for AI Agents.
-Optimized for FastMCP 3.0.1+ and Cloud deployment (Render/SSE).
+Fixlow MCP Server — Community Knowledge Base for AI Agents.
+Optimized for FastMCP and Render deployment.
 """
 
 import os
@@ -10,27 +10,23 @@ import yaml
 import logging
 from typing import List, Optional
 from fastmcp import FastMCP
-from starlette.applications import Starlette
 from starlette.responses import JSONResponse
-from starlette.routing import Route, Mount
 
 # ─── Initialization ──────────────────────────────────────────────
 
-# Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("fixflow")
 
+# Initialize FastMCP
 mcp = FastMCP("FixFlow")
 
 def get_env_config(keys: List[str], default: str) -> str:
-    """Helper to find env var by multiple possible names and clean it."""
     for key in keys:
         val = os.environ.get(key)
         if val:
             return val.strip().strip("'").strip('"')
     return default
 
-# Cloud configuration
 SUPABASE_URL = get_env_config(
     ["FIXFLOW_SUPABASE_URL", "TECHDOCS_SUPABASE_URL", "SUPABASE_URL"], 
     "https://hbwrduqbmuupxhtndrta.supabase.co"
@@ -40,7 +36,6 @@ SUPABASE_KEY = get_env_config(
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhid3JkdXFibXV1cHhodG5kcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyNzQxNDQsImV4cCI6MjA4Njg1MDE0NH0.t37Ag0pQHuYdyflfviST69ZX8R2FTNCdLzhpN2tt_s0"
 )
 
-# Initialize Supabase
 try:
     from supabase import create_client, Client
     if SUPABASE_URL and SUPABASE_KEY:
@@ -57,41 +52,27 @@ except Exception as e:
 
 @mcp.tool()
 def resolve_kb_id(query: str) -> str:
-    """
-    Search the Knowledge Base to find a KB ID.
-    """
-    if not supabase:
-        return "⚠️ Error: Cloud connection not initialized."
-
+    """Search the Knowledge Base to find a KB ID."""
+    if not supabase: return "⚠️ Error: Cloud connection not initialized."
     try:
         response = supabase.table("fixflow_kb") \
             .select("kb_id, title, status, quick_summary, tags, version") \
             .or_(f"title.ilike.%{query}%,tags.cs.{{%22{query}%22}},kb_id.ilike.%{query}%") \
-            .limit(5) \
-            .execute()
-        
+            .limit(5).execute()
         results = response.data
-        if not results:
-             return "No KB cards found matching your query."
-
+        if not results: return "No KB cards found matching your query."
         return "\n".join([f"- ID: `{c['kb_id']}` | Title: {c['title']} (v{c.get('version', 1)})" for c in results])
-
     except Exception as e:
         logger.error(f"Search Error: {e}")
         return f"Error searching KB: {str(e)}"
 
 @mcp.tool()
 def read_kb_doc(kb_id: str) -> str:
-    """
-    Read the full Markdown content of a KB card.
-    """
-    if not supabase:
-        return "⚠️ Error: Cloud connection not initialized."
-
+    """Read the full Markdown content of a KB card."""
+    if not supabase: return "⚠️ Error: Cloud connection not initialized."
     try:
         response = supabase.table("fixflow_kb").select("content").eq("kb_id", kb_id).execute()
-        if response.data:
-             return response.data[0]['content']
+        if response.data: return response.data[0]['content']
         return f"KB card not found: {kb_id}"
     except Exception as e:
         logger.error(f"Read Error: {e}")
@@ -99,24 +80,14 @@ def read_kb_doc(kb_id: str) -> str:
 
 @mcp.tool()
 def save_kb_card(content: str, overwrite: bool = False) -> str:
-    """
-    Validate and save a new Knowledge Base card.
-    """
+    """Validate and save a new Knowledge Base card."""
     try:
         frontmatter_match = re.match(r"^---\n(.*?)\n---\n", content, re.DOTALL)
-        if not frontmatter_match:
-             return "❌ Invalid KB Card: Missing YAML frontmatter."
-        
+        if not frontmatter_match: return "❌ Invalid KB Card: Missing YAML frontmatter."
         fm = yaml.safe_load(frontmatter_match.group(1))
-        if "kb_id" not in fm or "title" not in fm:
-            return "❌ Invalid KB Card: Missing required fields."
-        
+        if "kb_id" not in fm or "title" not in fm: return "❌ Invalid KB Card: Missing required fields."
         kb_id = fm["kb_id"]
-
-        if not supabase:
-            return "⚠️ Error: Cloud connection not initialized."
-
-        # Prepare payload
+        if not supabase: return "⚠️ Error: Cloud connection not initialized."
         data = {
             "kb_id": kb_id, "title": fm["title"], "content": content,
             "category": fm.get("category", "uncategorized"), "tags": fm.get("tags", []),
@@ -124,54 +95,41 @@ def save_kb_card(content: str, overwrite: bool = False) -> str:
             "quick_summary": fm.get("description", fm.get("quick_summary", "")),
             "complexity": fm.get("complexity", 1), "criticality": fm.get("criticality", "low")
         }
-
-        # Check existing
         existing = supabase.table("fixflow_kb").select("kb_id").eq("kb_id", kb_id).execute()
-        if existing.data and not overwrite:
-            return f"❌ Card {kb_id} already exists."
-
+        if existing.data and not overwrite: return f"❌ Card {kb_id} already exists."
         if existing.data:
             supabase.table("fixflow_kb").update(data).eq("kb_id", kb_id).execute()
             return f"✅ Updated card {kb_id}."
         else:
             supabase.table("fixflow_kb").insert(data).execute()
             return f"✅ Created card {kb_id}."
-
     except Exception as e:
         logger.error(f"Save Error: {e}")
         return f"❌ Error saving to cloud: {str(e)}"
 
 # ─── ASGI Application ───────────────────────────────────────────
 
+# In standard FastMCP, http_app() returns the Starlette app.
+app = mcp.http_app()
+
+# Add a health check route to the Starlette app
+@app.route("/health")
 async def health_check(request):
-    return JSONResponse({"status": "healthy", "service": "FixFlow"})
-
-# In FastMCP 3.0.1, sse_app() provides the legacy SSE transport needed by supergateway
-mcp_app = mcp.sse_app(sse_path="/sse", message_path="/messages")
-
-# Combine everything into a single Starlette app
-app = Starlette(
-    routes=[
-        Route("/", endpoint=health_check),
-        Mount("/", app=mcp_app),
-    ]
-)
+    return JSONResponse({"status": "healthy"})
 
 # ─── CLI Execution ──────────────────────────────────────────────
 
 def main():
     import argparse
     import uvicorn
-    
-    parser = argparse.ArgumentParser(description="FixFlow MCP Server")
+    parser = argparse.ArgumentParser(description="Fixlow MCP Server")
     parser.add_argument("transport", choices=["stdio", "sse"], default="stdio", nargs="?")
     parser.add_argument("--host", default="0.0.0.0")
     parser.add_argument("--port", type=int, default=int(os.environ.get("PORT", 8000)))
-    
     args = parser.parse_args()
 
     if args.transport == "sse":
-        logger.info(f"🚀 Starting FixFlow SSE on {args.host}:{args.port}")
+        logger.info(f"🚀 Starting Fixlow SSE on {args.host}:{args.port}")
         uvicorn.run(app, host=args.host, port=args.port)
     else:
         mcp.run(transport='stdio')

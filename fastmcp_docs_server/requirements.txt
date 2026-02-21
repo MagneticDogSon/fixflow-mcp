@@ -1,6 +1,6 @@
-fastmcp[sse]>=3.0.1
+fastmcp
 PyYAML
-supabase>=2.11.0
+supabase
 uvicorn
 starlette
 python-dotenv
