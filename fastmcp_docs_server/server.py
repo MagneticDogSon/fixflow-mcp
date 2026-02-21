@@ -1,23 +1,20 @@
 """
 Fixlow MCP Server — Community Knowledge Base for AI Agents.
-Optimized for FastMCP and Render deployment.
+Uses FastMCP native SSE transport for reliable /sse endpoint.
 """
 
 import os
 import re
-import sys
 import yaml
 import logging
-from typing import List, Optional
+from typing import List
 from fastmcp import FastMCP
-from starlette.responses import JSONResponse
 
 # ─── Initialization ──────────────────────────────────────────────
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("fixflow")
 
-# Initialize FastMCP
 mcp = FastMCP("FixFlow")
 
 def get_env_config(keys: List[str], default: str) -> str:
@@ -28,11 +25,11 @@ def get_env_config(keys: List[str], default: str) -> str:
     return default
 
 SUPABASE_URL = get_env_config(
-    ["FIXFLOW_SUPABASE_URL", "TECHDOCS_SUPABASE_URL", "SUPABASE_URL"], 
+    ["FIXFLOW_SUPABASE_URL", "TECHDOCS_SUPABASE_URL", "SUPABASE_URL"],
     "https://hbwrduqbmuupxhtndrta.supabase.co"
 )
 SUPABASE_KEY = get_env_config(
-    ["FIXFLOW_SUPABASE_KEY", "TECHDOCS_SUPABASE_KEY", "SUPABASE_KEY"], 
+    ["FIXFLOW_SUPABASE_KEY", "TECHDOCS_SUPABASE_KEY", "SUPABASE_KEY"],
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhid3JkdXFibXV1cHhodG5kcnRhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyNzQxNDQsImV4cCI6MjA4Njg1MDE0NH0.t37Ag0pQHuYdyflfviST69ZX8R2FTNCdLzhpN2tt_s0"
 )
 
@@ -56,12 +53,12 @@ def resolve_kb_id(query: str) -> str:
     if not supabase: return "⚠️ Error: Cloud connection not initialized."
     try:
         response = supabase.table("fixflow_kb") \
-            .select("kb_id, title, status, quick_summary, tags, version") \
+            .select("kb_id, title, status, quick_summary, tags") \
             .or_(f"title.ilike.%{query}%,tags.cs.{{%22{query}%22}},kb_id.ilike.%{query}%") \
             .limit(5).execute()
         results = response.data
         if not results: return "No KB cards found matching your query."
-        return "\n".join([f"- ID: `{c['kb_id']}` | Title: {c['title']} (v{c.get('version', 1)})" for c in results])
+        return "\n".join([f"- ID: `{c['kb_id']}` | {c['title']}" for c in results])
     except Exception as e:
         logger.error(f"Search Error: {e}")
         return f"Error searching KB: {str(e)}"
@@ -107,32 +104,9 @@ def save_kb_card(content: str, overwrite: bool = False) -> str:
         logger.error(f"Save Error: {e}")
         return f"❌ Error saving to cloud: {str(e)}"
 
-# ─── ASGI Application ───────────────────────────────────────────
-
-# In standard FastMCP, http_app() returns the Starlette app.
-app = mcp.http_app()
-
-# Add a health check route to the Starlette app
-@app.route("/health")
-async def health_check(request):
-    return JSONResponse({"status": "healthy"})
-
-# ─── CLI Execution ──────────────────────────────────────────────
-
-def main():
-    import argparse
-    import uvicorn
-    parser = argparse.ArgumentParser(description="Fixlow MCP Server")
-    parser.add_argument("transport", choices=["stdio", "sse"], default="stdio", nargs="?")
-    parser.add_argument("--host", default="0.0.0.0")
-    parser.add_argument("--port", type=int, default=int(os.environ.get("PORT", 8000)))
-    args = parser.parse_args()
-
-    if args.transport == "sse":
-        logger.info(f"🚀 Starting Fixlow SSE on {args.host}:{args.port}")
-        uvicorn.run(app, host=args.host, port=args.port)
-    else:
-        mcp.run(transport='stdio')
+# ─── Entry Point ──────────────────────────────────────────────
 
 if __name__ == "__main__":
-    main()
+    port = int(os.environ.get("PORT", 8000))
+    logger.info(f"🚀 Starting Fixlow SSE server on port {port}")
+    mcp.run(transport="sse", host="0.0.0.0", port=port)
