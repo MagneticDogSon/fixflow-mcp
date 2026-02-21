@@ -143,13 +143,19 @@ def save_kb_card(content: str, overwrite: bool = False) -> str:
 
 # ─── ASGI Application ───────────────────────────────────────────
 
-# Get the ASGI application directly from FastMCP
-app = mcp.http_app()
-
-# Add a root route for Render Health Checks (avoids 404 on "/")
-@app.route("/")
 async def health_check(request):
     return JSONResponse({"status": "healthy", "service": "FixFlow"})
+
+# In FastMCP 3.0.1, sse_app() provides the legacy SSE transport needed by supergateway
+mcp_app = mcp.sse_app(sse_path="/sse", message_path="/messages")
+
+# Combine everything into a single Starlette app
+app = Starlette(
+    routes=[
+        Route("/", endpoint=health_check),
+        Mount("/", app=mcp_app),
+    ]
+)
 
 # ─── CLI Execution ──────────────────────────────────────────────
 
