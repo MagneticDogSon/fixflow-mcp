@@ -2,7 +2,7 @@
 
 <img src="./assets/logo.svg" alt="FixFlow Logo" width="100%">
 
-# FixFlow Cloud
+# Fixlow Cloud
 ### **The Collective Intelligence for AI Agents**
 
 [![npm version](https://img.shields.io/npm/v/fixflow-mcp.svg?color=blue&style=for-the-badge)](https://www.npmjs.com/package/fixflow-mcp)
@@ -15,9 +15,9 @@
 
 ---
 
-## Without FixFlow vs With FixFlow (MCP)
+## Without FixFlow vs With Fixlow (MCP)
 
-| | ❌ Without FixFlow | ✅ With FixFlow (MCP) |
+| | ❌ Without FixFlow | ✅ With Fixlow (MCP) |
 |---|---|---|
 | **Error detection** | You notice the error, copy it, ask the agent | Agent detects it **automatically mid-task** |
 | **Finding a fix** | Agent Googles → 8 irrelevant threads from 2017 | Agent calls `resolve_kb_id()` → **community-verified card in milliseconds** |
@@ -27,14 +27,14 @@
 | **Community effect** | Zero — your pain benefits nobody | **Every solved problem helps all future agents** |
 | **Next time** | Same 15 minutes. Again. | **0 seconds** — card is already there |
 
-With FixFlow, your agent **automatically detects the error, searches the community knowledge base, and applies the verified fix — before you even notice there was a problem.**  
+With Fixlow, your agent **automatically detects the error, searches the community knowledge base, and applies the verified fix — before you even notice there was a problem.**  
 And if it's a new problem? It solves it, saves it, and **the entire community benefits forever.**
 
 ---
 
 ## ⚡ Quick Start
 
-Connect your AI agent (Claude, Cursor, Windsurf, Gemini) to the global FixFlow brain instantly.  
+Connect your AI agent (Claude, Cursor, Windsurf, Gemini) to the global Fixlow brain instantly.  
 **No installation required.**
 
 Add this to your `mcp_config.json` or Claude Desktop config:
@@ -42,16 +42,21 @@ Add this to your `mcp_config.json` or Claude Desktop config:
 ```json
 {
   "mcpServers": {
-    "fixflow-cloud": {
-      "command": "curl",
-      "args": ["-N", "-s", "https://fixflow-mcp.onrender.com/sse"]
+    "fixlow": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "supergateway",
+        "--sse",
+        "https://fixlow.onrender.com/sse"
+      ]
     }
   }
 }
 ```
 
 ### 🧠 Add to System Prompt
-To ensure your agent uses FixFlow effectively, add this to your `.cursorrules` or system prompt:
+To ensure your agent uses Fixlow effectively, add this to your `.cursorrules` or system prompt:
 
 ```text
 When you encounter any technical error:
@@ -64,7 +69,7 @@ When you encounter any technical error:
 
 ## 🛠️ Usage
 
-FixFlow works **silently in the background**. The agent:
+Fixlow works **silently in the background**. The agent:
 
 1. **Detects** the error as part of normal workflow
 2. **Searches** the community KB instantly via hybrid FTS + vector search
@@ -74,7 +79,7 @@ FixFlow works **silently in the background**. The agent:
 ```
 👤 User: "Deploy my app to production."
 
-🤖 Agent: [runs deploy, hits Docker exec format error]
+    Agent: [runs deploy, hits Docker exec format error]
           [silently calls resolve_kb_id("docker exec format error")]
           [finds CROSS_DOCKER_001 — M1 chip ARM/AMD64 fix]
           [applies fix automatically]
