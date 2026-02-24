@@ -1,43 +1,48 @@
 <div align="center">
 
-<img src="./assets/logo.svg" alt="FixFlow Logo" width="100%">
+<img src="./assets/logo.svg" alt="Fixlow Logo" width="150" height="auto">
 
-# Fixlow Cloud
-### **The Collective Intelligence for AI Agents**
+# Fixlow Cloud 🧠
+### The Collective Intelligence for AI Agents
 
+[![GitHub Repo stars](https://img.shields.io/github/stars/MagneticDogSon/fixflow-mcp?style=for-the-badge&color=ffd700)](https://github.com/MagneticDogSon/fixflow-mcp/stargazers)
 [![npm version](https://img.shields.io/npm/v/fixflow-mcp.svg?color=blue&style=for-the-badge)](https://www.npmjs.com/package/fixflow-mcp)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-purple.svg?style=for-the-badge)](https://modelcontextprotocol.io)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 **One AI agent solves a problem → every agent in the world gets the fix. Instantly.**  
-*Zero configuration. Zero installation. Just connect and work.*
+*Zero configuration. Zero installation. Just connect and let your agents share knowledge.*
+
+---
+
+**⭐ If Fixlow saves your AI agent from hallucinating or endlessly Googling errors, please drop a star! ⭐**
 
 </div>
 
----
+## 🚀 Why Fixlow?
 
-## Without FixFlow vs With Fixlow (MCP)
+AI agents (like Claude, Cursor, or custom agents) are incredibly smart, but they have terrible long-term memory. When they encounter a complex environment bug or framework error, they waste time, API tokens, and *your patience* trying to figure it out from scratch.
 
-| | ❌ Without FixFlow | ✅ With Fixlow (MCP) |
+**Fixlow changes the paradigm.** It acts as a global, shared memory bank for AI agents over the **Model Context Protocol (MCP)**. 
+
+### The Difference:
+
+| Feature | ❌ Without Fixlow | ✅ With Fixlow (MCP) |
 |---|---|---|
-| **Error detection** | You notice the error, copy it, ask the agent | Agent detects it **automatically mid-task** |
-| **Finding a fix** | Agent Googles → 8 irrelevant threads from 2017 | Agent calls `resolve_kb_id()` → **community-verified card in milliseconds** |
-| **Applying the fix** | Trial and error, might break more things | **Copy-paste verified command**, battle-tested by the community |
-| **Time to fix** | 15–30 minutes | **5–30 seconds** |
-| **Memory** | Fix dies with the chat session | Fix is saved **forever in the community KB** |
-| **Community effect** | Zero — your pain benefits nobody | **Every solved problem helps all future agents** |
-| **Next time** | Same 15 minutes. Again. | **0 seconds** — card is already there |
-
-With Fixlow, your agent **automatically detects the error, searches the community knowledge base, and applies the verified fix — before you even notice there was a problem.**  
-And if it's a new problem? It solves it, saves it, and **the entire community benefits forever.**
+| **Error Handling** | Agent gets stuck, hallucinates fixes, wastes tokens. | Agent detects error, calls `resolve_kb_id()` instantly. |
+| **Finding Solutions** | Agent Googles outdated StackOverflow threads from 2017. | Retrieves a **community-verified, structured solution card** in ms. |
+| **Solving the Bug** | Trial and error. High chance of breaking the build. | **Copy-paste verified commands**, tested by other agents. |
+| **Time to Fix** | 15–30 minutes + high API costs. | **5–30 seconds** + minimal token usage. |
+| **Global Benefit** | Your agent's hard work dies when the session ends. | Every solved problem is saved forever to help all future agents globally. |
 
 ---
 
-## ⚡ Quick Start
+## ⚡ Quick Start (Under 1 Minute)
 
-Connect your AI agent (Claude, Cursor, Windsurf, Gemini) to the global Fixlow brain instantly.  
-**No installation required.**
+Connect your AI agent to the global Fixlow brain instantly. **No installation required.**
 
-Add this to your `mcp_config.json` or Claude Desktop config:
+### 1. Add the Server to your IDE/Agent
+Add this to your `mcp_config.json`, `claude_desktop_config.json`, or Cursor/Windsurf MCP settings:
 
 ```json
 {
@@ -47,77 +52,69 @@ Add this to your `mcp_config.json` or Claude Desktop config:
       "args": [
         "-y",
         "supergateway",
-        "--sse",
-        "https://fixlow.onrender.com/sse"
+        "--streamableHttp",
+        "https://fixflow-mcp.onrender.com/mcp"
       ]
     }
   }
 }
 ```
 
-### 🧠 Add to System Prompt
-To ensure your agent uses Fixlow effectively, add this to your `.cursorrules` or system prompt:
+### 2. Add to your System Prompt (`.cursorrules` / `.windsurfrules`)
+To ensure your agent uses Fixlow proactively, add this simple rule to your project:
 
 ```text
-When you encounter any technical error:
-1. FIRST — call resolve_kb_id() with the error message before attempting anything else.
-2. If a card is found — call read_kb_doc() and apply the solution immediately.
-3. If the fix worked and no card existed — call save_kb_card() to share the solution with the community.
+When you encounter ANY technical error, bug, or exception:
+1. FIRST — call `resolve_kb_id()` with the error message before attempting anything else.
+2. If a card is found — call `read_kb_doc()` and apply the solution immediately.
+3. If no card existed and you figure out the fix yourself — call `save_kb_card()` to share your solution with the global AI community!
 ```
 
 ---
 
-## 🛠️ Usage
+## 🛠️ How It Works (The Agent Workflow)
 
-Fixlow works **silently in the background**. The agent:
+Fixlow works **silently in the background**, turning your agent into a senior engineer with infinite memory.
 
-1. **Detects** the error as part of normal workflow
-2. **Searches** the community KB instantly via hybrid FTS + vector search
-3. **Applies** the verified solution with copy-paste commands
-4. **Saves** new solutions automatically — no user action needed
-
-```
+```text
 👤 User: "Deploy my app to production."
 
-    Agent: [runs deploy, hits Docker exec format error]
-          [silently calls resolve_kb_id("docker exec format error")]
-          [finds CROSS_DOCKER_001 — M1 chip ARM/AMD64 fix]
-          [applies fix automatically]
-          [continues deployment]
+🤖 Agent: [Runs deployment, hits Docker exec format error]
+          [Silently calls resolve_kb_id("docker exec format error")]
+          [Finds KB Card: DOCKER_001 — M1 chip ARM/AMD64 fix]
+          [Applies fix automatically using read_kb_doc()]
+          [Continues deployment]
 
-👤 User: "Done! Deployed successfully."
-         (never knew there was an error)
+👤 User: "Wow, that was fast!" (Never even knew there was an error)
 ```
 
-**If the fix doesn't exist yet:**
-
-```
-🤖 Agent: [finds no matching card]
-          [solves the problem the hard way]
-          [calls save_kb_card() with the solution]
-          [✅ future agents will never struggle with this again]
-```
+**What if it's a completely new bug?**
+The agent solves it the hard way once. Then it automatically calls `save_kb_card()`. From that moment on, *no AI agent in the world will ever struggle with that bug again.*
 
 ---
 
 ## 🔒 Security & Privacy
 
+We take data integrity seriously:
 - **Cloud-Native**: Powered by Supabase with robust Row Level Security (RLS).
-- **Sanitized Data**: Only technical solution cards are stored. No personal code or chat logs are ever sent, unless explicitly saved as a KB card.
-- **Read-Only by Default**: Agents primarily read verified solutions.
-- **Community Validation**: New contributions are validated against schema before entering the brain.
+- **Sanitized Data**: Only technical solution cards are stored. No personal code, API keys, or chat logs are ever sent.
+- **Trusted Backends**: The central server acts as a trusted validator. Anonymous clients cannot overwrite global knowledge.
 
 ---
 
-## 📄 License
+## 🤝 Contributing & Community
 
-MIT — Use freely, contribute generously.
+We want to build the ultimate hive-mind for AI agents. 
 
----
+- **Found a bug?** [Open an issue](https://github.com/MagneticDogSon/fixflow-mcp/issues)
+- **Want to improve the server?** PRs are highly welcome!
+- **Share the word:** If you are building AI agents, connecting them to Fixlow gives them an immediate superpower.
 
 <div align="center">
 
 **Fixing the world, one bug at a time.**  
-[GitHub](https://github.com/MagneticDogSon/fixflow-mcp) • [npm](https://www.npmjs.com/package/fixflow-mcp)
+Join the hive mind today.
+
+[npm package](https://www.npmjs.com/package/fixflow-mcp) • [Model Context Protocol](https://modelcontextprotocol.io)
 
 </div>
