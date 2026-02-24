@@ -1,0 +1,78 @@
+[
+    {
+        "kb_id": "WIN_TERM_042",
+        "title": "PowerShell Async Hang",
+        "category": "terminal",
+        "platform": "windows",
+        "technologies": [
+            "powershell",
+            "cmd"
+        ],
+        "complexity": 7,
+        "criticality": "high",
+        "created": "2026-02-11",
+        "tags": [
+            "windows",
+            "hang",
+            "async",
+            "utf8"
+        ],
+        "related_kb": [
+            "WIN_ENC_001"
+        ],
+        "file_path": "terminal/WIN_TERM_042.md",
+        "quick_summary": "PowerShell 7 async hang → use CMD with WaitMs = 0",
+        "quick_fix": "cmd /c \"chcp 65001 > nul && command\"",
+        "diagnostic_time": "5sec",
+        "fix_time": "5min"
+    },
+    {
+        "kb_id": "CROSS_GIT_001",
+        "title": "Git Merge Conflict Resolution",
+        "category": "devops",
+        "platform": "cross-platform",
+        "technologies": [
+            "git",
+            "github"
+        ],
+        "complexity": 3,
+        "criticality": "medium",
+        "created": "2026-02-17",
+        "tags": [
+            "git",
+            "merge",
+            "conflict",
+            "resolve"
+        ],
+        "related_kb": [],
+        "file_path": "devops/CROSS_GIT_001.md",
+        "quick_summary": "Merge conflict in pull request → use rebase + manual resolve",
+        "fix_time": "~10 min"
+    },
+    {
+        "kb_id": "CROSS_DOCKER_001",
+        "title": "Docker exec format error — Wrong Architecture",
+        "category": "devops",
+        "platform": "cross-platform",
+        "technologies": [
+            "docker",
+            "buildx",
+            "multi-arch"
+        ],
+        "complexity": 4,
+        "criticality": "high",
+        "created": "2026-02-17",
+        "tags": [
+            "docker",
+            "exec-format-error",
+            "arm64",
+            "amd64",
+            "multi-arch",
+            "buildx"
+        ],
+        "related_kb": [],
+        "file_path": "devops/CROSS_DOCKER_001.md",
+        "quick_summary": "Container fails with `exec format error` → rebuild image with correct `--platform`",
+        "fix_time": "~5 min"
+    }
+]

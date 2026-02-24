@@ -1,0 +1,1 @@
+chore: project cleanup and consolidate skill directories  
