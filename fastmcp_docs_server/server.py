@@ -383,14 +383,14 @@ def _report_outcome(kb_id: str, outcome: str, enrichment: str) -> str:
 
 # ─── ASGI Application ───────────────────────────────────────────
 
-from starlette.applications import Starlette
-from starlette.routing import Mount
+from starlette.responses import JSONResponse
+from starlette.routing import Route
 
 async def health_check(request):
     return JSONResponse({"status": "healthy", "service": "fixflow"})
 
-app = Starlette(routes=[
-    Route("/", endpoint=health_check),
-    Route("/health", endpoint=health_check),
-    Mount("/mcp", app=mcp.http_app())
-])
+mcp_app = mcp.http_app()
+mcp_app.routes.insert(0, Route("/", endpoint=health_check))
+mcp_app.routes.insert(1, Route("/health", endpoint=health_check))
+
+app = mcp_app
