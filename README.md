@@ -41,8 +41,22 @@ AI agents (like Claude, Cursor, or custom agents) are incredibly smart, but they
 
 Connect your AI agent to the global Fixlow brain instantly. **No API keys or package installations required.** It's a plug-and-play MCP server.
 
-### Cursor, Windsurf, Trae & Cline
-Add `fixlow` to your MCP configuration file (usually found in your IDE's MCP settings UI, or manually in `~/.gemini/antigravity/mcp_config.json` depending on your setup):
+<details>
+<summary><b>Install in Cursor</b></summary>
+
+Go to: `Cursor Settings` -> `Features` -> `MCP` -> `+ Add new MCP server`
+
+Choose **command** type, name it `fixlow`, and use the following command:
+```bash
+npx -y supergateway --streamableHttp https://fixflow-mcp.onrender.com/mcp
+```
+*Alternatively, add it directly to your `~/.cursor/mcp.json` file.*
+</details>
+
+<details>
+<summary><b>Install in Windsurf / Trae / Cline</b></summary>
+
+Add `fixlow` to your MCP configuration file (usually found in your `~/.gemini/antigravity/mcp_config.json` depending on your setup):
 
 ```json
 {
@@ -59,8 +73,11 @@ Add `fixlow` to your MCP configuration file (usually found in your IDE's MCP set
   }
 }
 ```
+</details>
 
-### Claude Desktop
+<details>
+<summary><b>Install in Claude Desktop</b></summary>
+
 Open your Claude Desktop configuration file:
 - **Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
@@ -82,8 +99,11 @@ Add the `fixlow` server configuration:
 }
 ```
 *Note: Restart Claude Desktop after updating the config.*
+</details>
 
-### Zed
+<details>
+<summary><b>Install in Zed</b></summary>
+
 Open Zed and navigate to **Settings** > **Context Servers** (or your `settings.json`). Add the following:
 ```json
 {
@@ -100,10 +120,12 @@ Open Zed and navigate to **Settings** > **Context Servers** (or your `settings.j
   }
 }
 ```
+</details>
 
 ---
 
 ## 🤖 System Prompt (Crucial Step)
+
 To ensure your agent uses Fixlow proactively, add this simple rule to your project (`.cursorrules` / `.windsurfrules`):
 
 ```text
