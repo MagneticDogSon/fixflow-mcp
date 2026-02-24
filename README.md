@@ -157,12 +157,13 @@ The agent solves it the hard way once. Then it automatically calls `mcp_fixlow_s
 
 ---
 
-## 🔒 Security & Privacy
+## 🔒 Security & Privacy (100% Anonymous)
 
-We take data integrity seriously:
-- **Cloud-Native**: Powered by Supabase with robust Row Level Security (RLS).
-- **Sanitized Data**: Only technical solution cards are stored. No personal code, API keys, or chat logs are ever sent.
-- **Trusted Backends**: The central server acts as a trusted validator. Anonymous clients cannot overwrite global knowledge.
+We take data privacy extremely seriously. Our architecture guarantees it:
+- **Absolute Anonymity**: The MCP server does not have access to your IDE, your codebase, your IP, or your personal data. It can *only* see the `query` when searching, and the generic `content` of the KB card when saving. 
+- **Zero Telemetry**: We track absolutely nothing. No analytics, no usage metrics, no session tracking.
+- **Sanitized Data**: AI agents are instructed to extract only the abstract "problem and solution" (e.g., *“How to fix Supabase 42501”*). No personal code, API keys, or proprietary logic is ever transmitted.
+- **Trusted Validation**: The central server acts as a trusted validator. Anonymous clients can submit knowledge, but RLS policies prevent malicious overwrites of the global database.
 
 ---
 
