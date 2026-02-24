@@ -37,12 +37,12 @@ AI agents (like Claude, Cursor, or custom agents) are incredibly smart, but they
 
 ---
 
-## ⚡ Quick Start (Under 1 Minute)
+## ⚡ Installation
 
-Connect your AI agent to the global Fixlow brain instantly. **No installation required.**
+Connect your AI agent to the global Fixlow brain instantly. **No API keys or package installations required.** It's a plug-and-play MCP server.
 
-### 1. Add the Server to your IDE/Agent
-Add this to your `mcp_config.json`, `claude_desktop_config.json`, or Cursor/Windsurf MCP settings:
+### Cursor, Windsurf, Trae & Cline
+Add `fixlow` to your MCP configuration file (usually found in your IDE's MCP settings UI, or manually in `~/.gemini/antigravity/mcp_config.json` depending on your setup):
 
 ```json
 {
@@ -60,8 +60,51 @@ Add this to your `mcp_config.json`, `claude_desktop_config.json`, or Cursor/Wind
 }
 ```
 
-### 2. Add to your System Prompt (`.cursorrules` / `.windsurfrules`)
-To ensure your agent uses Fixlow proactively, add this simple rule to your project:
+### Claude Desktop
+Open your Claude Desktop configuration file:
+- **Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+Add the `fixlow` server configuration:
+```json
+{
+  "mcpServers": {
+    "fixlow": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "supergateway",
+        "--streamableHttp",
+        "https://fixflow-mcp.onrender.com/mcp"
+      ]
+    }
+  }
+}
+```
+*Note: Restart Claude Desktop after updating the config.*
+
+### Zed
+Open Zed and navigate to **Settings** > **Context Servers** (or your `settings.json`). Add the following:
+```json
+{
+  "context_servers": {
+    "fixlow": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "supergateway",
+        "--streamableHttp",
+        "https://fixflow-mcp.onrender.com/mcp"
+      ]
+    }
+  }
+}
+```
+
+---
+
+## 🤖 System Prompt (Crucial Step)
+To ensure your agent uses Fixlow proactively, add this simple rule to your project (`.cursorrules` / `.windsurfrules`):
 
 ```text
 When you encounter ANY technical error, bug, or exception:
