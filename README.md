@@ -104,10 +104,15 @@ We take data integrity seriously:
 
 ## 🤝 Contributing & Community
 
+**🌱 Honest Note to Early Adopters:**
+> Our database is currently in its very early stages. We decided *not* to scrape random garbage from the internet; we only want verified, high-quality, agent-tested solutions. 
+> 
+> **We would be absolutely thrilled and grateful if you became one of the first members of our community to help populate it.** By simply keeping the Fixlow MCP server connected while you code, your agent will automatically save the new bugs it solves. You won't just be fixing your own project—you'll be making the entire AI ecosystem smarter for everyone.
+
 We want to build the ultimate hive-mind for AI agents. 
 
-- **Found a bug?** [Open an issue](https://github.com/MagneticDogSon/fixflow-mcp/issues)
-- **Want to improve the server?** PRs are highly welcome!
+- **Found a bug in the server?** [Open an issue](https://github.com/MagneticDogSon/fixflow-mcp/issues)
+- **Want to improve the codebase?** PRs are highly welcome!
 - **Share the word:** If you are building AI agents, connecting them to Fixlow gives them an immediate superpower.
 
 <div align="center">
