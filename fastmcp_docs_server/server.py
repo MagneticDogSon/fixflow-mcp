@@ -110,15 +110,17 @@ def save_kb_card(content: str, overwrite: bool = False) -> str:
 # ─── ASGI Application ───────────────────────────────────────────
 
 async def health_check(request):
-    return JSONResponse({"status": "healthy", "service": "fixlow"})
+    return JSONResponse({"status": "healthy", "service": "fixflow"})
 
-# Mounting FastMCP app at /mcp explicitly to avoid path conflicts
+# FastMCP 3.x http_app() creates its own /mcp route internally.
+# Mount at root so the final endpoint is /mcp (not /mcp/mcp).
 mcp_app = mcp.http_app()
 
 app = Starlette(
     routes=[
         Route("/", endpoint=health_check),
         Route("/health", endpoint=health_check),
-        Mount("/mcp", app=mcp_app),
+        Mount("/", app=mcp_app),
     ]
 )
+
