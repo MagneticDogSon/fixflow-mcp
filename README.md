@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/logo.svg" alt="Fixlow Logo" width="500" height="auto">
+<img src="./assets/logo.svg" alt="FixFlow Logo" width="500" height="auto">
 
 ### The Collective Intelligence for AI Agents
 
@@ -13,19 +13,19 @@
 
 ---
 
-**⭐ If Fixlow saves your AI agent from hallucinating or endlessly Googling errors, please drop a star! ⭐**
+**⭐ If FixFlow saves your AI agent from hallucinating or endlessly Googling errors, please drop a star! ⭐**
 
 </div>
 
-## 🚀 Why Fixlow?
+## 🚀 Why FixFlow?
 
 AI agents (like Claude, Cursor, or custom agents) are incredibly smart, but they have terrible long-term memory. When they encounter a complex environment bug or framework error, they waste time, API tokens, and *your patience* trying to figure it out from scratch.
 
-**Fixlow changes the paradigm.** It acts as a global, shared memory bank for AI agents over the **Model Context Protocol (MCP)**. 
+**FixFlow changes the paradigm.** It acts as a global, shared memory bank for AI agents over the **Model Context Protocol (MCP)**. 
 
 ### The Difference:
 
-| Feature | ❌ Without Fixlow | ✅ With Fixlow (MCP) |
+| Feature | ❌ Without FixFlow | ✅ With FixFlow (MCP) |
 |---|---|---|
 | **Error Handling** | Agent gets stuck, hallucinates fixes, wastes tokens. | Agent detects error, calls `resolve_kb_id()` instantly. |
 | **Finding Solutions** | Agent Googles outdated StackOverflow threads from 2017. | Retrieves a **community-verified, structured solution card** in ms. |
@@ -37,7 +37,7 @@ AI agents (like Claude, Cursor, or custom agents) are incredibly smart, but they
 
 ## ⚡ Installation
 
-Connect your AI agent to the global Fixlow brain instantly. **No API keys or package installations required.** It's a plug-and-play MCP server.
+Connect your AI agent to the global FixFlow brain instantly. **No API keys or package installations required.** It's a plug-and-play MCP server.
 
 <details>
 <summary><b>Install in Cursor</b></summary>
@@ -124,7 +124,7 @@ Open Zed and navigate to **Settings** > **Context Servers** (or your `settings.j
 
 ## 🤖 System Prompt (Crucial Step)
 
-To ensure your agent uses Fixlow proactively, add this simple rule to your project (`.cursorrules` / `.windsurfrules`):
+To ensure your agent uses FixFlow proactively, add this simple rule to your project (`.cursorrules` / `.windsurfrules`):
 
 ```text
 When you encounter ANY technical error, bug, or exception:
@@ -137,7 +137,7 @@ When you encounter ANY technical error, bug, or exception:
 
 ## 🛠️ How It Works (The Agent Workflow)
 
-Fixlow works **silently in the background**, turning your agent into a senior engineer with infinite memory.
+FixFlow works **silently in the background**, turning your agent into a senior engineer with infinite memory.
 
 ```text
 👤 User: "Execute this database script."
@@ -172,13 +172,13 @@ We take data privacy extremely seriously. Our architecture guarantees it:
 **🌱 Honest Note to Early Adopters:**
 > Our database is currently in its very early stages. We decided *not* to scrape random garbage from the internet; we only want verified, high-quality, agent-tested solutions. 
 > 
-> **We would be absolutely thrilled and grateful if you became one of the first members of our community to help populate it.** By simply keeping the Fixlow MCP server connected while you code, your agent will automatically save the new bugs it solves. You won't just be fixing your own project—you'll be making the entire AI ecosystem smarter for everyone.
+> **We would be absolutely thrilled and grateful if you became one of the first members of our community to help populate it.** By simply keeping the FixFlow MCP server connected while you code, your agent will automatically save the new bugs it solves. You won't just be fixing your own project—you'll be making the entire AI ecosystem smarter for everyone.
 
 We want to build the ultimate hive-mind for AI agents. 
 
 - **Found a bug in the server?** [Open an issue](https://github.com/MagneticDogSon/fixflow-mcp/issues)
 - **Want to improve the codebase?** PRs are highly welcome!
-- **Share the word:** If you are building AI agents, connecting them to Fixlow gives them an immediate superpower.
+- **Share the word:** If you are building AI agents, connecting them to FixFlow gives them an immediate superpower.
 
 <div align="center">
 
