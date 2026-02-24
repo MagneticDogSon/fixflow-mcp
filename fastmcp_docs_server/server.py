@@ -50,22 +50,22 @@ except Exception as e:
 
 # ─── Tools ───────────────────────────────────────────────────────
 
-@mcp.tool()
+@mcp.tool(description="""
+FIRST STEP in any troubleshooting workflow. Search the collective Knowledge Base (KB) for solutions to technical errors, bugs, or architectural patterns.
+
+WHEN TO USE:
+- ALWAYS call this first when encountering any error message, bug, or exception.
+- Call this when designing a feature to check for established community patterns.
+
+INPUT:
+- `query`: A specific error message, stack trace fragment, library name, or architectural concept.
+
+OUTPUT:
+- Returns a list of matching KB cards with their `kb_id` and titles.
+- If a matching card is found, you MUST immediately call `read_kb_doc` using the `kb_id` to get the full solution.
+""")
 def resolve_kb_id(query: str) -> str:
-    """
-    FIRST STEP in any troubleshooting workflow. Search the collective Knowledge Base (KB) for solutions to technical errors, bugs, or architectural patterns.
-    
-    WHEN TO USE:
-    - ALWAYS call this first when encountering any error message, bug, or exception.
-    - Call this when designing a feature to check for established community patterns.
-    
-    INPUT:
-    - `query`: A specific error message, stack trace fragment, library name, or architectural concept.
-    
-    OUTPUT:
-    - Returns a list of matching KB cards with their `kb_id` and titles.
-    - If a matching card is found, you MUST immediately call `read_kb_doc` using the `kb_id` to get the full solution.
-    """
+    """Search the Knowledge Base to find a KB ID."""
     if not supabase: return "⚠️ Error: Cloud connection not initialized."
     try:
         response = supabase.table("fixflow_kb") \
@@ -79,21 +79,21 @@ def resolve_kb_id(query: str) -> str:
         logger.error(f"Search Error: {e}")
         return f"Error searching KB: {str(e)}"
 
-@mcp.tool()
+@mcp.tool(description="""
+SECOND STEP in the troubleshooting workflow. Read the full content and solution of a specific Knowledge Base card.
+
+WHEN TO USE:
+- Call this ONLY after obtaining a valid `kb_id` from the `resolve_kb_id` tool.
+
+INPUT:
+- `kb_id`: The exact ID of the card (e.g., 'fastmcp-mount-bug').
+
+OUTPUT:
+- Returns the full Markdown content of the card, including the solution, code snippets, and explanations.
+- You MUST apply the solution provided in the card to resolve the user's issue.
+""")
 def read_kb_doc(kb_id: str) -> str:
-    """
-    SECOND STEP in the troubleshooting workflow. Read the full content and solution of a specific Knowledge Base card.
-    
-    WHEN TO USE:
-    - Call this ONLY after obtaining a valid `kb_id` from the `resolve_kb_id` tool.
-    
-    INPUT:
-    - `kb_id`: The exact ID of the card (e.g., 'fastmcp-mount-bug').
-    
-    OUTPUT:
-    - Returns the full Markdown content of the card, including the solution, code snippets, and explanations.
-    - You MUST apply the solution provided in the card to resolve the user's issue.
-    """
+    """Read the full Markdown content of a KB card."""
     if not supabase: return "⚠️ Error: Cloud connection not initialized."
     try:
         response = supabase.table("fixflow_kb").select("content").eq("kb_id", kb_id).execute()
@@ -103,22 +103,22 @@ def read_kb_doc(kb_id: str) -> str:
         logger.error(f"Read Error: {e}")
         return f"Error reading KB card: {str(e)}"
 
-@mcp.tool()
+@mcp.tool(description="""
+FINAL STEP in the troubleshooting workflow. Save a new, successfully verified solution to the collective Knowledge Base so other agents can learn from it.
+
+WHEN TO USE:
+- ALWAYS call this after successfully fixing a bug or implementing a complex pattern IF no existing KB card covered it.
+- The MCP server acts as a trusted backend; it will automatically validate and persist the card to the cloud database.
+
+INPUT:
+- `content`: The FULL Markdown content of the KB card. It MUST start with valid YAML frontmatter containing at least `kb_id` and `title`.
+- `overwrite`: Set to True only if explicitly instructed to update an existing card.
+
+OUTPUT:
+- Confirmation of successful save or validation errors. If successful, the knowledge is now shared with all agents globally.
+""")
 def save_kb_card(content: str, overwrite: bool = False) -> str:
-    """
-    FINAL STEP in the troubleshooting workflow. Save a new, successfully verified solution to the collective Knowledge Base so other agents can learn from it.
-    
-    WHEN TO USE:
-    - ALWAYS call this after successfully fixing a bug or implementing a complex pattern IF no existing KB card covered it.
-    - The MCP server acts as a trusted backend; it will automatically validate and persist the card to the cloud database.
-    
-    INPUT:
-    - `content`: The FULL Markdown content of the KB card. It MUST start with valid YAML frontmatter containing at least `kb_id` and `title`.
-    - `overwrite`: Set to True only if explicitly instructed to update an existing card.
-    
-    OUTPUT:
-    - Confirmation of successful save or validation errors. If successful, the knowledge is now shared with all agents globally.
-    """
+    """Validate and save a new Knowledge Base card."""
     try:
         frontmatter_match = re.match(r"^---\n(.*?)\n---\n", content, re.DOTALL)
         if not frontmatter_match: return "❌ Invalid KB Card: Missing YAML frontmatter."
