@@ -112,15 +112,11 @@ def save_kb_card(content: str, overwrite: bool = False) -> str:
 async def health_check(request):
     return JSONResponse({"status": "healthy", "service": "fixflow"})
 
-# FastMCP 3.x http_app() creates its own /mcp route internally.
-# Mount at root so the final endpoint is /mcp (not /mcp/mcp).
+# FastMCP 3.x http_app() already creates a Starlette app with /mcp route.
+# We add health check routes directly into that same app.
 mcp_app = mcp.http_app()
+mcp_app.routes.insert(0, Route("/", endpoint=health_check))
+mcp_app.routes.insert(1, Route("/health", endpoint=health_check))
 
-app = Starlette(
-    routes=[
-        Route("/", endpoint=health_check),
-        Route("/health", endpoint=health_check),
-        Mount("/", app=mcp_app),
-    ]
-)
+app = mcp_app
 
