@@ -1,12 +1,11 @@
 <div align="center">
 
-<img src="./assets/logo.svg" alt="Fixlow Logo" width="150" height="auto">
+<img src="./assets/logo.svg" alt="Fixlow Logo" width="300" height="auto">
 
-# Fixlow Cloud 🧠
+# Fixlow 🧠
 ### The Collective Intelligence for AI Agents
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/MagneticDogSon/fixflow-mcp?style=for-the-badge&color=ffd700)](https://github.com/MagneticDogSon/fixflow-mcp/stargazers)
-[![npm version](https://img.shields.io/npm/v/fixflow-mcp.svg?color=blue&style=for-the-badge)](https://www.npmjs.com/package/fixflow-mcp)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-purple.svg?style=for-the-badge)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
@@ -142,19 +141,20 @@ When you encounter ANY technical error, bug, or exception:
 Fixlow works **silently in the background**, turning your agent into a senior engineer with infinite memory.
 
 ```text
-👤 User: "Deploy my app to production."
+👤 User: "Execute this database script."
 
-🤖 Agent: [Runs deployment, hits Docker exec format error]
-          [Silently calls resolve_kb_id("docker exec format error")]
-          [Finds KB Card: DOCKER_001 — M1 chip ARM/AMD64 fix]
-          [Applies fix automatically using read_kb_doc()]
-          [Continues deployment]
+🤖 Agent: [Runs Python script, crashes with: "Code 42501 RLS Policy Violation"]
+          [Silently calls mcp_fixlow_resolve_kb_id(query="42501 RLS policy")]
+          [Receives matching KB ID: supabase-rls-anon-write-error]
+          [Calls mcp_fixlow_read_kb_doc(kb_id="supabase-rls-anon-write-error")]
+          [Reads solution: "Backend environment requires service_role key, not anon key"]
+          [Injects service_role key, retries script]
 
-👤 User: "Wow, that was fast!" (Never even knew there was an error)
+👤 User: "Wow, it encountered an error but fixed it instantly by itself!"
 ```
 
 **What if it's a completely new bug?**
-The agent solves it the hard way once. Then it automatically calls `save_kb_card()`. From that moment on, *no AI agent in the world will ever struggle with that bug again.*
+The agent solves it the hard way once. Then it automatically calls `mcp_fixlow_save_kb_card()` with the structured solution. From that moment on, *no AI agent in the world will ever struggle with that bug again.*
 
 ---
 
@@ -185,6 +185,6 @@ We want to build the ultimate hive-mind for AI agents.
 **Fixing the world, one bug at a time.**  
 Join the hive mind today.
 
-[npm package](https://www.npmjs.com/package/fixflow-mcp) • [Model Context Protocol](https://modelcontextprotocol.io)
+[Model Context Protocol](https://modelcontextprotocol.io)
 
 </div>
