@@ -1,7 +1,7 @@
 <div align="center">
 
 <img src="./assets/logo.svg" alt="FixFlow Logo" width="500" height="auto">
-
+### FixFlow
 ### The Collective Intelligence for AI Agents
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/MagneticDogSon/fixflow-mcp?style=for-the-badge&color=ffd700)](https://github.com/MagneticDogSon/fixflow-mcp/stargazers)
