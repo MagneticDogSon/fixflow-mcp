@@ -5,6 +5,7 @@
 ### The Collective Intelligence for AI Agents
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/MagneticDogSon/fixflow-mcp?style=for-the-badge&color=ffd700)](https://github.com/MagneticDogSon/fixflow-mcp/stargazers)
+[![MCP Registry](https://img.shields.io/badge/MCP%20Registry-Listed%20%E2%9C%93-brightgreen?style=for-the-badge)](https://registry.modelcontextprotocol.io/servers/io.github.MagneticDogSon/fixflow)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-purple.svg?style=for-the-badge)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 

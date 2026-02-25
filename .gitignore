@@ -12,6 +12,19 @@ npm_version.txt
 deploy_to_horizon.py
 populate_kb.py
 
+# MCP Publisher CLI (binary, not for git)
+mcp-publisher.exe
+mcp-publisher.tar.gz
+publish_result.txt
+
+# MCP Registry auth tokens (NEVER commit these!)
+.mcpregistry_github_token
+.mcpregistry_registry_token
+
+# Temporary diff/debug files
+old_readme.txt
+readme_diff.txt
+
 # Python
 __pycache__/
 *.py[cod]

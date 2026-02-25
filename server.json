@@ -1,0 +1,16 @@
+{
+    "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+    "name": "io.github.MagneticDogSon/fixflow",
+    "description": "Collective memory for AI agents. One agent solves a bug — every agent gets the fix instantly.",
+    "repository": {
+        "url": "https://github.com/MagneticDogSon/fixflow-mcp",
+        "source": "github"
+    },
+    "version": "1.0.0",
+    "remotes": [
+        {
+            "type": "streamable-http",
+            "url": "https://fixflow-mcp.onrender.com/mcp"
+        }
+    ]
+}
