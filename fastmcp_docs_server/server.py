@@ -239,23 +239,126 @@ def read_kb_doc(kb_id: str) -> str:
 @mcp.tool(description="""
 WRITE to the Knowledge Base. This tool has TWO modes:
 
-**MODE 1 — SAVE a new card**: Provide `content` with full Markdown following the ACTIONABLE schema.
-Required YAML fields: `kb_id`, `title`, `category`, `tags`.
-Required Markdown sections: `## 🔍 This Is Your Problem If:`, `## ✅ SOLUTION (copy-paste)`, `## ✔️ Verification`.
-
-**MODE 2 — REPORT OUTCOME**: After applying a KB card solution, report whether it worked.
-Provide `kb_id` + `outcome` ('success' or 'failure'). Optionally add `enrichment` text if the solution needed extra steps.
+**MODE 1 — SAVE a new card**: Provide `content` with full Markdown following the ACTIONABLE schema below.
+**MODE 2 — REPORT OUTCOME**: Provide `kb_id` + `outcome` ('success' or 'failure').
 
 WHEN TO USE:
 - Mode 1: After successfully fixing a bug IF no existing KB card covered it.
 - Mode 2: ALWAYS after applying a solution from `read_kb_doc` and running verification.
 
 INPUT:
-- `content`: (Mode 1) Full Markdown KB card content.
+- `content`: (Mode 1) Full Markdown KB card content — follow the EXACT template below.
 - `overwrite`: (Mode 1) Set to True to update an existing card.
 - `kb_id`: (Mode 2) ID of the card to report outcome for.
 - `outcome`: (Mode 2) 'success' or 'failure'.
 - `enrichment`: (Mode 2, optional) Additional context to merge into the card when outcome is 'failure'.
+
+━━━ CARD TEMPLATE (Mode 1) — copy this structure EXACTLY ━━━
+
+```
+---
+kb_id: "[PLATFORM]_[CATEGORY]_[NUMBER]"   # e.g. WIN_TERM_001, CROSS_DOCKER_002
+title: "[Short Title — max 5 words]"
+category: "[terminal|devops|supabase|fastmcp|network|database|...]"
+platform: "[windows|linux|macos|cross-platform]"
+technologies: [tech1, tech2]
+complexity: [1-10]
+criticality: "[low|medium|high|critical]"
+created: "[YYYY-MM-DD]"
+tags: [tag1, tag2, tag3]
+related_kb: []
+---
+
+# [Short Title — max 5 words]
+
+> **TL;DR**: [One sentence — what's the problem + solution]
+> **Fix Time**: ~[X min] | **Platform**: [Windows/Linux/macOS/All]
+
+---
+
+## 🔍 This Is Your Problem If:
+
+- [ ] [Symptom 1 — specific symptom or error message]
+- [ ] [Symptom 2 — specific error code or log line]
+- [ ] [Symptom 3 — environment/version condition]
+
+**Where to Check**: [console / logs / env / task manager / etc.]
+
+---
+
+## ✅ SOLUTION (copy-paste)
+
+### 🎯 Integration Pattern: [Global Scope] / [Inside Init] / [Event Handler]
+
+```[language]
+# [One-line comment — what this code does]
+[depersonalized code WITHOUT specific paths, use __VAR__ for things to replace]
+```
+
+### ⚡ Critical (won't work without this):
+- ✓ **[Critical Point 1]** — [why it's essential]
+- ✓ **[Critical Point 2]** — [common mistake to avoid]
+
+### 📌 Versions:
+- **Works**: [OS/library versions where confirmed working]
+- **Doesn't Work**: [OS/library versions where known broken]
+
+---
+
+## ✔️ Verification (<30 sec)
+
+```bash
+[single command to verify the fix worked]
+```
+
+**Expected**:
+✓ [Specific output or behavior that confirms success]
+
+**If it didn't work** → see Fallback below ⤵
+
+---
+
+## 🔄 Fallback (if main solution failed)
+
+### Option 1: [approach name]
+```bash
+[command]
+```
+**When**: [condition to use this option] | **Risks**: [what might break]
+
+### Option 2: [alternative approach]
+```bash
+[command]
+```
+**When**: [condition] | **Risks**: [what might break]
+
+---
+
+## 💡 Context (optional)
+
+**Root Cause**: [1 sentence — why this problem occurs]
+
+**Side Effects**: [what might change after applying the fix]
+
+**Best Practice**: [how to avoid this in future — 1 point]
+
+**Anti-Pattern**: ✗ [what NOT to do — common mistake]
+
+---
+
+**Applicable**: [OS, library versions, conditions]
+**Frequency**: [rare / common / very common]
+```
+
+━━━ END OF TEMPLATE ━━━
+
+RULES for ACTIONABLE cards:
+1. Solution FIRST — after diagnosis, code immediately
+2. Depersonalize — no names, project names, or absolute paths
+3. Use `__VAR__` markers for anything the user must replace
+4. One Verification command, result visible in <30 sec
+5. Fallback — 1-2 options max, always include When/Risks
+6. Context at End — WHY is optional reading for curious agents
 """)
 def save_kb_card(
     content: str = "",

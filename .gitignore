@@ -5,6 +5,9 @@
 *.key
 .secret
 
+# Antigravity AI agent skills (internal, not for public repo)
+.agents/
+
 # FixFlow temporary
 npm_push.py
 npm_publish_result.txt
