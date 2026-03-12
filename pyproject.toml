@@ -29,9 +29,9 @@ dependencies = [
 fixflow-mcp = "fastmcp_docs_server.server:main"
 
 [project.urls]
-Homepage = "https://github.com/mds-tech/fixflow-mcp"
-Repository = "https://github.com/mds-tech/fixflow-mcp"
-Issues = "https://github.com/mds-tech/fixflow-mcp/issues"
+Homepage = "https://github.com/MagneticDogSon/fixflow-mcp"
+Repository = "https://github.com/MagneticDogSon/fixflow-mcp"
+Issues = "https://github.com/MagneticDogSon/fixflow-mcp/issues"
 
 [build-system]
 requires = ["hatchling"]
