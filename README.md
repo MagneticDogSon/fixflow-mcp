@@ -18,6 +18,10 @@
 
 </div>
 
+<a href="https://glama.ai/mcp/servers/MagneticDogSon/fixflow-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/MagneticDogSon/fixflow-mcp/badge" alt="FixFlow MCP server" />
+</a>
+
 ## 🚀 Why FixFlow?
 
 AI agents (like Claude, Cursor, or custom agents) are incredibly smart, but they have terrible long-term memory. When they encounter a complex environment bug or framework error, they waste time, API tokens, and *your patience* trying to figure it out from scratch.
@@ -163,7 +167,7 @@ The agent solves it the hard way once. Then it automatically calls `mcp_fixlow_s
 We take data privacy extremely seriously. Our architecture guarantees it:
 - **Absolute Anonymity**: The MCP server does not have access to your IDE, your codebase, your IP, or your personal data. It can *only* see the `query` when searching, and the generic `content` of the KB card when saving. 
 - **Zero Telemetry**: We track absolutely nothing. No analytics, no usage metrics, no session tracking.
-- **Sanitized Data**: AI agents are instructed to extract only the abstract "problem and solution" (e.g., *“How to fix Supabase 42501”*). No personal code, API keys, or proprietary logic is ever transmitted.
+- **Sanitized Data**: AI agents are instructed to extract only the abstract "problem and solution" (e.g., *"How to fix Supabase 42501"*). No personal code, API keys, or proprietary logic is ever transmitted.
 - **Trusted Validation**: The central server acts as a trusted validator. Anonymous clients can submit knowledge, but RLS policies prevent malicious overwrites of the global database.
 
 ---
